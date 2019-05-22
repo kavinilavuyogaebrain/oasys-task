@@ -1,0 +1,73 @@
+<div class="container">
+  <h4>View Survey</h4>
+   <p class="mt-5 text-center" *ngIf="success" style="color:green;font-weight:bold"> {{ success }}</p>
+   <p class="mt-5 text-center" *ngIf="nodata" style="color:red;font-weight:bold">
+  {{nodata}}</p>  
+     <table class="table">
+       <thead class="">
+
+       </thead>
+    <tbody style="text-align: center">
+       <tr id="hide1" *ngFor="let question of questions"  >
+        <td class="text-left">Question Type :{{question.questiontype}}<br>
+           <b>{{question.question}}?</b><br>{{question.answer}}</td>
+           <td style="display: flex;" *ngIf="deal !== -1">
+            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" (click)="getviewId(question._id)">View
+            </button>&nbsp;
+
+            <button  id="hideEditBtn1" class="btn btn-outline-success text-center viewMoreBtn button_word" routerLink="/survey/{{question._id}}">
+            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+            </button> &nbsp;
+
+            <button id="hideDeleteBtn1" class="btn btn-outline-danger text-center viewMoreBtn button_word" data-toggle="modal" data-target="#myModal" data-backdrop="static"
+            data-keyboard="false" routerLink="/viewsurvey/{{question._id}}">
+            <i class="fa fa-trash" aria-hidden="true" ></i> Delete
+            </button>
+           </td>
+       </tr>
+   </tbody>
+  </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <p><b>{{quesData.question}}?</b></p>
+       <p>{{quesData.answer}}</p>
+      </div>
+     
+    </div>
+  </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Confirmation</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          Do you want to delete it?
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal" (click)="deleteQues()">Ok</button>
+          <button type="button" routerLink="/viewsurvey" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

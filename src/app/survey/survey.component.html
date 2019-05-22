@@ -1,0 +1,55 @@
+<div class="container register">
+        
+  <div class="row">
+     
+      <div class="col-md-3 register-left">
+          <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
+          <h3>Welcome</h3>
+         
+      </div>
+      <div class="col-md-9 register-right">
+          <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <h6 class="mt-5" style="color:green;text-align:center;font-weight:bold" *ngIf="success">{{success}}</h6>
+                  <h3 class="register-heading">Survey</h3>
+                  <form #usrform="ngForm">
+                  <div class="row register-form">
+                      <div class="col-md-6">
+                          <div class="form-group">
+                              <select class="form-control"  #questiontype="ngModel" name="questiontype" [(ngModel)]="quesData.questiontype" [class.is-invalid]="questiontype.invalid && questiontype.touched" class="form-control" required >
+                                  <option selected value="">Please Select Your Question Type</option>
+                                  <option>Multiple choice questions</option>
+                                  <option>Dropdown questions</option>
+                                  <option>Open-ended questions</option>
+                              </select>
+                              <small class="text-danger" [class.d-none]="questiontype.valid || questiontype.untouched">Please Select Question Type </small>
+                          </div>
+                          <div class="form-group">
+                              <textarea type="text" #answer="ngModel" name="answer" [(ngModel)]="quesData.answer" [class.is-invalid]="answer.invalid && answer.touched" class="form-control" required placeholder="Please Enter Answer  "></textarea>
+                              <small class="text-danger" [class.d-none]="answer.valid || answer.untouched">Please Enter Answer</small>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group">
+                              <input type="text" #question="ngModel" name="question" [(ngModel)]="quesData.question" [class.is-invalid]="question.invalid && question.touched" class="form-control" required placeholder="Please Enter Question">
+                              <small class="text-danger" [class.d-none]="question.valid || question.untouched">Please Enter Question</small>
+                          </div>
+                          <div class="form-group">
+                              <select class="form-control"  #show="ngModel" name="show" [(ngModel)]="quesData.show" [class.is-invalid]="show.invalid && show.touched" class="form-control" required>
+                                  <option value="" selected>Choose Answer Display Type </option>
+                                  <option>1 Column</option>
+                                  <option>2 Column</option>
+                                  <option>1 Row</option>
+                              </select>
+                              <small class="text-danger" [class.d-none]="show.valid || show.untouched">Please Select</small>
+                          </div>
+                          <input type="submit" (click)="addQuestion()" class="btnRegister"  value="Submit" [disabled]="usrform.form.invalid"/>
+                      </div>
+                  </div>
+                </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+</div>
