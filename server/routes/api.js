@@ -4,6 +4,7 @@ const express = require ('express')
 const router = express.Router()
 
 const Question = require('../models/question')
+const Questionpaper = require('../models/quespaper')
 
 const mongoose =require('mongoose')
 const db="mongodb://admin:admin01@ds155516.mlab.com:55516/sample"
@@ -17,7 +18,28 @@ mongoose.connect(db,err=>{
 // router.get('/',(req,res)=>{
 //     res.send('hi from API')
 // })
-
+router.post('/urlfullquestion',(req,res)=>{
+  let fullForm = req.body
+  let questionpaper = new Questionpaper(fullForm)
+  questionpaper.save((err,question) => {
+  if(err){
+      console.log(err)
+  }else{
+      console.log(question);
+     res.status(200).send(question)
+  }
+})
+})
+router.get('/urlgetfullquestion', (req, res) => {
+  Questionpaper.find(function(err, result) {
+    if (err) {
+      // console.log('no data1')
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  })
+});
 router.post('/questionData',(req,res)=>{
     let qData = req.body
     let question = new Question(qData)
