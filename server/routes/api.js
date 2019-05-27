@@ -42,6 +42,7 @@ router.get('/urlgetfullquestion', (req, res) => {
 });
 router.post('/questionData',(req,res)=>{
     let qData = req.body
+    console.log(qData);
     let question = new Question(qData)
     question.save((err,question) => {
     if(err){

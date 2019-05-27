@@ -3,30 +3,40 @@
    <p class="mt-5 text-center" *ngIf="success" style="color:green;font-weight:bold"> {{ success }}</p>
    <p class="mt-5 text-center" *ngIf="nodata" style="color:red;font-weight:bold">
   {{nodata}}</p>  
-     <table class="table">
-       <thead class="">
+  <table class="table">
+      <thead class="">
 
-       </thead>
-    <tbody style="text-align: center">
-       <tr id="hide1" *ngFor="let question of questions"  >
-        <td class="text-left">Question Type :{{question.questiontype}}<br>
-           <b>{{question.question}}?</b><br>{{question.answer}}</td>
-           <td style="display: flex;" *ngIf="deal !== -1">
-            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" (click)="getviewId(question._id)">View
-            </button>&nbsp;
+      </thead>
+   <tbody style="text-align: center">
+      
+      <tr id="hide1" *ngFor="let question of fullquestions;">
+         
+       <div *ngFor="let question1 of question.questionpaper">
+        <p class="text-left"><b>{{question1.question}}?</b></p>
+      <div *ngIf="question1.questiontype == 'Dropdown'">
+        <select class="form-control">
+          <option *ngFor="let question2 of question1.answer">{{question2.arrans}}</option>
+          </select>
+        </div>
+        <div *ngIf="question1.questiontype == 'Checkboxes'">
+            <p class="text-left" *ngFor="let question2 of question1.answer">
+            <input type="checkbox" name="vehicle" value="Bike"> {{question2.arrans}}</p><br>
+            </div>
+            <div *ngIf="question1.questiontype == 'Input'"  class="text-left">
+                <input type="text" class="form-control" style="width:400px;">
+              </div>
+         <br>
+       </div>
+          <td style="display: flex;" *ngIf="deal !== -1">
+          &nbsp;
 
-            <button  id="hideEditBtn1" class="btn btn-outline-success text-center viewMoreBtn button_word" routerLink="/survey/{{question._id}}">
-            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
-            </button> &nbsp;
-
-            <button id="hideDeleteBtn1" class="btn btn-outline-danger text-center viewMoreBtn button_word" data-toggle="modal" data-target="#myModal" data-backdrop="static"
-            data-keyboard="false" routerLink="/viewsurvey/{{question._id}}">
-            <i class="fa fa-trash" aria-hidden="true" ></i> Delete
-            </button>
-           </td>
-       </tr>
-   </tbody>
-  </table>
+           
+          </td>
+          
+      </tr>
+            
+  </tbody>
+ </table>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

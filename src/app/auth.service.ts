@@ -11,12 +11,20 @@ export class AuthService {
   private deleteQuestion = "http://localhost:3000/api/deleteQuestionData";
   private getQuestiondata = "http://localhost:3000/api/editQuestionData";
   private updateQuestion = "http://localhost:3000/api/updateQuestionData";
+  private fullquestion = "http://localhost:3000/api/urlfullquestion";
+  private getfullquestionUrl ="http://localhost:3000/api/urlgetfullquestion";
   constructor( private http:HttpClient) { }
 
 
   // userInfo(data){
   //   return this.http.post<any>(this.userInfoUrl,data)
   // }
+ fullques(data){
+    return this.http.post<any>(this.fullquestion,data)
+  }
+  getfullques(){
+    return this.http.get<any>(this.getfullquestionUrl)
+  }
   addQuestion(data){
     return this.http.post<any>(this.questionUrl,data)
   }
