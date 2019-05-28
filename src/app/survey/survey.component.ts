@@ -138,7 +138,7 @@ getAll(){
         // console.log(this.questions)
         if(this.questions.length == 0){
         
-          this.nodata="Create Questions Here";
+          this.nodata="No Questions Yet";
         }else{
           this.nodata = "";
         }
