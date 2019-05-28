@@ -62,7 +62,7 @@
                         <div class="row register-form">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" #question="ngModel" name="question" [(ngModel)]="quesData.question" [class.is-invalid]="question.invalid && question.touched" class="form-control" required placeholder="Please Enter Question">
+                                    <input type="text" #question="ngModel" name="question" [(ngModel)]="quesData.question" [class.is-invalid]="question.invalid && question.touched" class="form-control" required placeholder="Please Enter Question" autocomplete="off">
 
                                     <small class="text-danger" [class.d-none]="question.valid || question.untouched">Please Enter Question</small>
                                 </div>
@@ -94,7 +94,7 @@
                                     <td>{{i+1}}</td>
                                   
                                     <td>
-                                        <input [(ngModel)]="quesData.arrans" required class="form-control" type="text" name="arrans{{i}}" #arrans="ngModel" [class.is-invalid]="arrans.invalid && arrans.touched" value="{{quesData.arrans}}"  />
+                                        <input [(ngModel)]="quesData.arrans" required class="form-control" type="text" name="arrans{{i}}" #arrans="ngModel" [class.is-invalid]="arrans.invalid && arrans.touched" value="{{quesData.arrans}}"  autocomplete="off"/>
                                     </td>
 
                                     <td>
