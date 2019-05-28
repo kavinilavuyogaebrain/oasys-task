@@ -14,6 +14,7 @@ export class ViewsurveyComponent implements OnInit {
   quesData={}
   nodata:any
   quesArr: any = [];
+  deletesuccees:any
   constructor(private _authService : AuthService,private router:Router,private route:ActivatedRoute) { }
 
   ngOnInit() {
@@ -41,7 +42,23 @@ export class ViewsurveyComponent implements OnInit {
       }
     )
   }
-
+deleteQuestionPaper(){
+  this.id = this.route.snapshot.params['id'];  
+  console.log(this.id)
+  this._authService.deleteQuestionPaperid(this.id).subscribe(
+    res =>{
+        console.log(res)
+        this.deletesuccees = "Deleted Succesfully";
+        
+        setTimeout(() => {
+          this.deletesuccees = '';
+          this.getAll();
+        }, 2000);
+    },err=>{
+      console.log(err)
+    }
+  )
+}
   // getviewId(id){
   
   //     this._authService.editQues(id).subscribe(

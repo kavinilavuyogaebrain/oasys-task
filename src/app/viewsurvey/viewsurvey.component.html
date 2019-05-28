@@ -1,18 +1,19 @@
-<div class="container">
+<div class="container p-5">
   <h4>View Survey</h4>
-   <p class="mt-5 text-center" *ngIf="success" style="color:green;font-weight:bold"> {{ success }}</p>
-   <p class="mt-5 text-center" *ngIf="nodata" style="color:red;font-weight:bold">
-  {{nodata}}</p>  
+   <p class="mt-5 text-center" *ngIf="nodata" style="color:green;font-weight:bold"> {{ nodata }}</p>
+   <p class="mt-5 text-center" *ngIf="deletesuccees" style="color:red;font-weight:bold">
+  {{deletesuccees}}</p>  
   <table class="table">
       <thead class="">
 
       </thead>
    <tbody style="text-align: center">
       
-      <tr id="hide1" *ngFor="let question of fullquestions;">
-         
+      <tr id="hide1" *ngFor="let question of fullquestions;let i = index">
+         <td>{{i+1}} </td>
+         <td>
        <div *ngFor="let question1 of question.questionpaper">
-        <p class="text-left"><b>{{question1.question}}?</b></p>
+        <p class="text-left"><b>{{question1.question}}</b></p>
       <div *ngIf="question1.questiontype == 'Dropdown'">
         <select class="form-control">
           <option *ngFor="let question2 of question1.answer">{{question2.arrans}}</option>
@@ -27,9 +28,13 @@
               </div>
          <br>
        </div>
-          <td style="display: flex;" *ngIf="deal !== -1">
-          &nbsp;
-
+      </td>
+          <td >
+            
+            <p id="hideDeleteBtn1" class="text-center viewMoreBtn button_word" data-toggle="modal" data-target="#myModal2" data-backdrop="static"
+  data-keyboard="false" routerLink="/viewsurvey/{{question._id}}">
+                <i class='fas fa-trash-alt' style='font-size:22px;color:red'></i>
+            </p>
            
           </td>
           
@@ -57,10 +62,10 @@
   </div>
 </div>
 <!-- The Modal -->
-<div class="modal" id="myModal">
+<div class="modal" id="myModal2">
     <div class="modal-dialog">
       <div class="modal-content">
-  
+
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Delete Confirmation</h4>
@@ -74,8 +79,8 @@
   
         <!-- Modal footer -->
         <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal" (click)="deleteQues()">Ok</button>
-          <button type="button" routerLink="/viewsurvey" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" id="deleteall" (click)="deleteQuestionPaper(id)">Ok</button>
+          <button type="button" routerLink="/survey" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

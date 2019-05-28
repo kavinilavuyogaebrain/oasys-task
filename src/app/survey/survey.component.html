@@ -15,7 +15,7 @@
                                     <input type="text" class="form-control">
                                 </div>
                                 <div id="select" *ngIf="question.questiontype == 'Dropdown'">
-                                    <select class="form-control" (change)="ques()" #questiontype="ngModel" name="questiontype" [(ngModel)]="quesData.questiontype" [class.is-invalid]="questiontype.invalid && questiontype.touched" class="form-control" required >
+                                    <select class="form-control" #questiontype="ngModel" name="questiontype" [(ngModel)]="quesData.questiontype" [class.is-invalid]="questiontype.invalid && questiontype.touched" class="form-control" required >
                                         <option *ngFor="let eee of question.answer">{{eee.arrans}}</option>
                                     </select>
                                 </div>
@@ -29,18 +29,19 @@
                             <!-- <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" (click)="getviewId(question._id)">View
                             </button>&nbsp; -->
       
-                            <button  id="hideEditBtn1" class="btn btn-outline-success text-center viewMoreBtn button_word" routerLink="/survey/{{question._id}}">
-                                <i class="fa fa-pencil" aria-hidden="true"></i> Edit
-                            </button> &nbsp;
+                            <p  id="hideEditBtn1" class="text-center viewMoreBtn button_word" routerLink="/survey/{{question._id}}">
+                                <i class="fa fa-pencil" aria-hidden="true"></i><i class='fas fa-edit' style='font-size:22px;color:blue'></i>
+                            </p> &nbsp;
       
-                            <button id="hideDeleteBtn1" class="btn btn-outline-danger text-center viewMoreBtn button_word" data-toggle="modal" data-target="#myModal" data-backdrop="static"
+                            <p id="hideDeleteBtn1" class="text-center viewMoreBtn button_word" data-toggle="modal" data-target="#myModal" data-backdrop="static"
                   data-keyboard="false" routerLink="/survey/{{question._id}}">
-                                <i class="fa fa-trash" aria-hidden="true" ></i> Delete
-                            </button>
+                                <i class='fas fa-trash-alt' style='font-size:22px;color:red'></i>
+                            </p>
                         </td>
+                        
                     </tr>
-                            <button type="submit" class="btn btn-outline-success" (click)="full()" *ngIf="!nodata">Save</button> 
-                            <button type="submit" class="btn btn-outline-success" id="deleteall" (click)="deleteAll()" *ngIf="!nodata" data-toggle="modal" data-target="#myModal">Clear All</button>
+                         <button type="submit" class="btn btn-outline-success" (click)="full()" *ngIf="!nodata">Save</button> &nbsp;&nbsp;
+                            <button type="submit" class="btn btn-outline-danger"  *ngIf="!nodata" data-toggle="modal" data-target="#myModal1">Clear All</button>
                     </tbody>
                 </table>
             </form>
@@ -55,7 +56,7 @@
 <div class="col-md-9 register-right">
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <h6 class="mt-5" style="color:green;text-align:center;font-weight:bold" *ngIf="success">{{success}}</h6>
+            <h6 class="mt-5" style="color:green;text-align:center;font-weight:bold" *ngIf="success">{{allsuccess}}</h6>
                 <h3 class="register-heading">Survey</h3>
                     <form #usrform="ngForm" >
                         <div class="row register-form">
@@ -79,8 +80,8 @@
                             </div>
                       </div>
 
-                    <div class="container">
-                        <table *ngIf = "page" class="table table-striped table-bordered">
+                    <div class="container" id="addrow" style="display:none;">
+                        <table  class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -89,11 +90,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                 <tr *ngFor="let quesData1 of answerArray; let i = index">
+                                 <tr *ngFor="let quesData of answerArray; let i = index">
                                     <td>{{i+1}}</td>
                                   
                                     <td>
-                                        <input [(ngModel)]="quesData1.arrans" required class="form-control" [(ngModel)]="quesData.arrans" type="text" name="arrans" #arrans="ngModel" [class.is-invalid]="arrans.invalid && arrans.touched"  />
+                                        <input [(ngModel)]="quesData.arrans" required class="form-control" type="text" name="arrans{{i}}" #arrans="ngModel" [class.is-invalid]="arrans.invalid && arrans.touched" value="{{quesData.arrans}}"  />
                                     </td>
 
                                     <td>
@@ -102,37 +103,16 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <table *ngIf = "Dropdown" class="table table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>value</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                     <tr *ngFor="let quesData1 of answerArray; let i = index">
-                                        <td>{{i+1}}</td>
-                                      
-                                        <td>
-                                            <input [(ngModel)]="quesData1.arrans" required class="form-control" [(ngModel)]="quesData.arrans" type="text" name="arrans" #arrans="ngModel" [class.is-invalid]="arrans.invalid && arrans.touched" />
-                                        </td>
-
-                                        <td>
-                                            <button class="btn btn-default"  type="button" (click)="deleteNotification(i)">Delete</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
 
-                      <input type="submit" (click)="addQuestion()" class="btnRegister" value="Add Question" [disabled]="!usrform.valid" />
+                      <input type="submit" (click)="addQuestion()" class="btnRegister" value="Add Question"  />
 
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+       
     </div>
 
   <!-- Modal -->
@@ -177,5 +157,32 @@
         </div>
       </div>
     </div>
-</div>
+
+
+    <!-- delete all -->
+    <!-- The Modal -->
+  <div class="modal" id="myModal1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+  
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Delete Confirmation</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="modal-body">
+              Do you want to delete it?
+            </div>
+      
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="deleteall" (click)="deleteAll()">Ok</button>
+              <button type="button" routerLink="/survey" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
    

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ActivatedRoute } from '@angular/router';
-
+import {NgForm} from '@angular/forms';
 @Component({
   selector: 'app-survey',
   templateUrl: './survey.component.html',
@@ -11,19 +11,23 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class SurveyComponent implements OnInit {
+  @ViewChild('usrform') mytemplateform;
   quesData :any ={
     answer : []
   }
   id:any
   success :any
-  questions = []
+  questions:any = []
   fullQuestion :any ={}
   nodata:any
   fieldArray :any =[]
   page:any
   arrans: any = {};
   answerArray:any =[]
-
+  questiontype:any
+  arr:any
+  allsuccess:any
+  
   constructor(private _authService : AuthService,private router:Router,private route:ActivatedRoute) {
 
     this.quesData.questiontype = "",
@@ -36,7 +40,6 @@ export class SurveyComponent implements OnInit {
     this.arrans = { arrans: ""};
     this.answerArray.push(this.arrans);
     this.quesData.answer = this.answerArray; 
-
     this.getAll();
     
     this.id = this.route.snapshot.params['id'];
@@ -45,29 +48,39 @@ export class SurveyComponent implements OnInit {
       res=>{
         console.log(res)
         this.quesData = res;
+        this.answerArray =this.quesData.answer;
+        console.log(this.answerArray);
+        if(this.quesData.questiontype =="Dropdown"){
+          document.getElementById("addrow").style.display = "block";
+        }
+        if(this.quesData.questiontype =="Checkboxes"){
+          document.getElementById("addrow").style.display = "block";
+        }
+        if(this.quesData.questiontype =="Index"){
+          document.getElementById("addrow").style.display = "none";
+        }
       },err=>{
         console.log(err)
       }
     )
   } 
 
-    this.id = this.route.snapshot.params['id'];
-    if(this.id){
-    this._authService.editQues(this.id).subscribe(
-      res=>{
-        console.log(res)
-        this.quesData = res;
-      },err=>{
-        console.log(err)
-      }
-    )
-  }
+  //   this.id = this.route.snapshot.params['id'];
+  //   if(this.id){
+  //   this._authService.editQues(this.id).subscribe(
+  //     res=>{
+  //       console.log(res)
+  //       this.quesData = res;
+  //     },err=>{
+  //       console.log(err)
+  //     }
+  //   )
+  // }
   }
 addNotification(index) {
 
     this.arrans = { arrans: ""};
     this.answerArray.push(this.arrans);
-    // console.log(this.answerArray);  // I can see all entered data in console
     return true;
 }
 
@@ -100,8 +113,19 @@ addFieldValue() {
   }
 
   deleteAll(){
+    this._authService.deleteAllQuestionid().subscribe(
+      res=>{
+        console.log(res)
+        this.allsuccess = 'Deleted successfully!';
+        setTimeout(() => {
+          this.allsuccess = '';
+          this.getAll();
+        }, 3000);
 
-    document.getElementById("deleteall").click;
+      },err=>{
+        console.log(err)
+      }
+    )
   }
 
 getAll(){
@@ -114,7 +138,9 @@ getAll(){
         // console.log(this.questions)
         if(this.questions.length == 0){
         
-          this.nodata="No data found";
+          this.nodata="Create Questions Here";
+        }else{
+          this.nodata = "";
         }
         // console.log( this.nodata)
       },err =>{
@@ -144,10 +170,10 @@ this._authService.deleteQuestionid(this.id).subscribe(
   res=>{
     console.log(res)
     this.success = 'Deleted successfully!';
-    this.getAll();
+    
     setTimeout(() => {
       this.success = '';
-      this.router.navigate(['/survey']);
+      this.getAll();
     }, 3000);
   },err=>{
     console.log(err)
@@ -162,9 +188,9 @@ addQuestion(){
         res =>{
           console.log(res)
           this.success="Updated Succesfully";
+          this.mytemplateform.reset();
           setTimeout(() => {
             this.success = '';
-            this.router.navigate(['/survey']);
           }, 2000);
         },err =>{
           console.log(err)
@@ -175,10 +201,11 @@ addQuestion(){
       res =>{
         console.log(res)
         this.success="Inserted Succesfully";
-        this.router.navigate(['/survey']);
+        this.mytemplateform.reset();
+        this.getAll()
         setTimeout(() => {
           this.success = '';
-          this.router.navigate(['/survey']);
+          
         }, 2000);
       },err =>{
         console.log(err)
@@ -190,13 +217,15 @@ addQuestion(){
 ques(){
     // console.log(this.quesData.questiontype);
     let field = this.quesData.questiontype;
-    // console.log(field);
-  
+    console.log(field);
+    if(field == "Input"){
+      document.getElementById("addrow").style.display = "none";
+    }else
     if(field == "Dropdown"){
-      this.page = "Dropdown";
-    }
+      document.getElementById("addrow").style.display = "block";
+    }else
     if(field == "Checkboxes"){
-      this.page = "Checkboxes";
+      document.getElementById("addrow").style.display = "block";
     }
     
   }
@@ -208,15 +237,16 @@ ques(){
 full(){
   
   this.fullQuestion.questionpaper = this.questions;
+  console.log(this.questions)
   console.log(this.fullQuestion);
   // let alldata = this.fullQuestion.questionpaper;
   this._authService.fullques(this.fullQuestion).subscribe(
     res =>{
       console.log(res)
       this.success="Inserted Succesfully";
-     
       setTimeout(() => {
         this.success = '';
+        this.deleteAll();
         this.router.navigate(['/viewsurvey']);
       }, 2000);
     },err =>{

@@ -9,6 +9,8 @@ export class AuthService {
   private questionUrl = "http://localhost:3000/api/questionData";
   private getquestionUrl = "http://localhost:3000/api/getquestionData";
   private deleteQuestion = "http://localhost:3000/api/deleteQuestionData";
+  private deleteQuestionPaper = "http://localhost:3000/api/deleteQuestionPaperData";
+  private deleteAllQuestion = "http://localhost:3000/api/deleteAllQuestionData";
   private getQuestiondata = "http://localhost:3000/api/editQuestionData";
   private updateQuestion = "http://localhost:3000/api/updateQuestionData";
   private fullquestion = "http://localhost:3000/api/urlfullquestion";
@@ -34,6 +36,12 @@ export class AuthService {
   deleteQuestionid(id){
       return this.http.delete<any>(this.deleteQuestion + '/' + id);
   }
+  deleteQuestionPaperid(id){
+    return this.http.delete<any>(this.deleteQuestionPaper + '/' + id);
+}
+  deleteAllQuestionid(){
+    return this.http.delete<any>(this.deleteAllQuestion);
+}
   editQues(id) {
     return this.http.get<any>(this.getQuestiondata + '/' + id);
   }

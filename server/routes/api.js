@@ -59,7 +59,8 @@ router.get('/getquestionData', (req, res) => {
         // console.log('no data1')
         console.log(err);
       } else {
-        res.send(result);
+        res.status(200).send(result);
+
       }
     })
   });
@@ -73,7 +74,25 @@ router.delete('/deleteQuestionData/:id', (req, res) => {
       }
     });
   });
-
+  router.delete('/deleteQuestionPaperData/:id', (req, res) => {
+    Questionpaper.findByIdAndRemove(req.params.id, function(errors, deleteques) {
+      if (errors) {
+        console.log('Error deleting' + errors);
+      } else {
+        res.json(deleteques);
+      }
+    });
+  });
+  //delete blog
+  router.delete('/deleteAllQuestionData', (req, res) => {
+    Question.deleteMany(function(errors, deleteques) {
+      if (errors) {
+        console.log('Error deleting' + errors);
+      } else {
+        res.json(deleteques);
+      }
+    });
+  });
 
 router.get('/editQuestionData/:id', (req, res) => {
     Question.findById(req.params.id, function(errors, getoneuser) {
